@@ -1,0 +1,16 @@
+请求发起时，浏览器先判断当前是否是跨域的AJAX；
+
+如果是，判断是否是普通类型请求（GET类型，无自定义头数据）；
+
+普通请求，直接发起GET到服务端，在响应头中寻找Access-Control-Allow-Origin，如果有且允许，处理响应结果；
+
+不是普通请求（非GET类型，或有自定义头），先PreFlight（即发起一个method=OPTIONS）的请求，
+要求返回Access-Control-Allow-Methods和Access-Control-Allow-Headers，内容体为空
+
+PreFlight正确执行后，再发起GET请求，获得响应结果，并处理结果
+
+
+jsonp和cors 两种跨域请求对比
+1. jsonp只支持GET请求，因为他是通过脚本嵌入的方式， 不支持post， cors都支持
+2. jsonp需要修改业务代码， 而cors不需要，只需要修改服务器简单配置头即可
+3. cors只支持IE8以上的浏览器，所以也称为第二代jsonp跨域请求。而jsonp对所有浏览器有广泛性的兼容，所以 兼容性比cors要好很多

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>AJAX Tester</title>
+<script type="text/javascript" src="js/jquery.js"></script>
+
+<!--  jquery的 ajax，的方式， jsonp的方式  这种方式不会被拦截，因为采用jsonp的方式
+<script type="text/javascript">
+
+
+//jquery的 ajax，的方式， jsonp的方式 
+
+  $(function(){
+	  
+		$.ajax({
+ 			url: "http://www.b.com:8080/ajax-cross/user_info?callback=?",  //必须跟一个回调函数的名称
+ 			data: {id: 1},  //这表示参数，可以传入多个参数
+			dataType: "jsonp"  //datatype必须为jsonp
+ 		}).done(showResult);
+	
+	  
+  });
+
+function showResult(ret) {
+	console.log(ret);
+	$("#container").html(ret.name);
+}
+</script>
+
+ -->
+
+<script type="text/javascript">
+
+ //这种方式被拦截，可以采用cors方式， 在后台进行设置 ，
+ 
+ 	// 简单请求，在后台servlet中直接设置Access-Control-Allow-Origin就可以了
+	//response.addHeader("Access-Control-Allow-Origin", "*");
+      //修改普通的ajax请求，+后台设置之后 变成了cors 普通请求，也是cors get请求
+
+ $(function(){
+	 
+	 $.ajax("http://www.b.com:8080/ajax-cross/user_info").done(showResult);
+	 
+
+	 
+ });
+
+
+ function showResult(ret) {
+		console.log(ret);
+
+		$("#container").html(ret.name);
+	}
+ 
+</script>
+
+
+<!-- 
+<script type="text/javascript">
+	$(function() {
+		// 普通ajax请求
+//    		$.ajax("http://www.b.com/user_info").done(showResult);
+		
+		$.ajax({  CORS请求  POST请求
+			url: "http://www.b.com/user_info",
+			method: "POST",
+			beforeSend: function(xhr) {
+				console.log("before send");
+				xhr.setRequestHeader("reqid","abc")
+			}
+		}).done(showResult);
+		
+// 		// jsonp形式的请求
+// 		$.ajax({
+// 			url: "http://www.b.com/user_info_2?callback=?",
+// 			data: {id: 1},
+// 			dataType: "jsonp"
+// 		}).done(showResult);
+	});
+	
+	function showResult(ret) {
+		console.log(ret);
+		$("#container").html(ret.name);
+	}
+</script>
+ -->
+</head>
+<body>
+My name is: 
+<span style="font-weight:bold;" id="container"></span>
+<!-- 
+<script type="text/javascript" src="http://www.b.com:8080/ajax-cross/user_info?callback=showResult"></script>
+
+<script type="text/javascript" src="http://www.b.com/user_info_2"></script>
+ -->
+ 
+<!-- 
+<script type="text/javascript" src="http://www.b.com/user_info_2?callback=showResult"></script>
+ 
+ 
+<script type="text/javascript">
+	
+// 	var script = document.createElement("script");
+// 	script.src = "http://www.b.com/user_info_2?callback=showResult";
+// 	document.body.appendChild(script);
+	
+// 	script.onload = function() {
+// 		document.body.removeChild(script);
+// 	}
+	
+	
+// 	function jsonp(url, parameter, callback) {
+		
+// 		// 生成一个script dom节点
+// 		var script = document.createElement("script");
+		
+// 		// 生成一个随机字符串作为回调函数名 cbf123();
+// 		var randomKey = "cbf" + new Date().getTime();
+// 		// 将callback以生成的随机串为属性名附加到window对象上，这样，在页面任意位置都能以window[randomKey]()形式调用callback
+// 		window[randomKey] = callback;
+// 		url += "?callback=" + randomKey;
+		
+// 		if (parameter) {
+// 			for (var p in parameter) {
+// 				url += "&" + p + "=" + parameter[p];
+// 			}
+// 		}
+		
+// 	 	script.src = url;
+// 	 	document.body.appendChild(script);
+		
+// 	 	// 操作完成后移除script标签
+// 	 	script.onload = function() {
+// 	 		document.body.removeChild(script);
+// 	 	}		
+// 	}
+	
+// 	jsonp("http://www.b.com/user_info_2", null, showResult);
+	
+// 	jsonp("http://www.b.com/user_info_2", {test:1}, function(ret) {
+// 		alert(ret.name);
+// 	});
+</script>
+-->
+</body>
+</html>
